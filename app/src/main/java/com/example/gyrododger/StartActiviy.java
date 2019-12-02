@@ -14,7 +14,7 @@ public class StartActiviy extends AppCompatActivity {
         setContentView(R.layout.activity_start);
         Button start = findViewById(R.id.start);
         start.setOnClickListener(ununsed -> {
-            startActivityForResult(new Intent(this, EndActivity.class),1);
+            startActivityForResult(new Intent(this, GameActivity.class),1);
         });
     }
 }
