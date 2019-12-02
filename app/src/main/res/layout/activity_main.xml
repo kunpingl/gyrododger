@@ -1,28 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:gravity="center"
     android:orientation="vertical"
     android:visibility="visible">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/main_introduction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="垃圾游戏主界面"
-        tools:layout_editor_absoluteX="160dp"
-        tools:layout_editor_absoluteY="122dp" />
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:text="Welcome To Flight Fight"
+        android:textSize="25sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="120dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Flight's Name:"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/inputUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Example: Mark II"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="START"
-        tools:layout_editor_absoluteX="158dp"
-        tools:layout_editor_absoluteY="325dp" />
+        android:text="start"
+        android:layout_gravity="center"
+        android:layout_marginTop="120dp" />
 
 </LinearLayout>
