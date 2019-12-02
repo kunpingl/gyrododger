@@ -23,7 +23,8 @@ public class GameView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawBitmap(player, 0, 0,null);
+
         canvas.drawBitmap(backgroundImage, 0,0,null);
+        canvas.drawBitmap(player, 0, 0,null);
     }
 }
