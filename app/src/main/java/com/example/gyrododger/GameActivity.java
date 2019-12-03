@@ -39,21 +39,20 @@ public class GameActivity extends Activity {
 
 
     private OnTouchListener movingEventListener = new OnTouchListener() {
-        int lastX, lastY, x, y;
+        int x;
+        int y;
 
         @Override
         public boolean onTouch(View view, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    lastX = (int) event.getRawX();
-                    lastY = (int) event.getRawY();
                     x = (int) event.getRawX();
                     y = (int) event.getRawY();
                     break;
                     
                 case MotionEvent.ACTION_MOVE:
-                    int dx = (int) event.getRawX() - lastX;
-                    int dy = (int) event.getRawY() - lastY;
+                    int dx = (int) event.getRawX() - x;
+                    int dy = (int) event.getRawY() - y;
 
                     int leftBound = view.getLeft() + dx;
                     int topBound = view.getTop() + dy;
@@ -83,26 +82,11 @@ public class GameActivity extends Activity {
 
                     view.layout(leftBound, topBound, rightBound, bottomBound);
 
-                    lastX = (int) event.getRawX();
-                    lastY = (int) event.getRawY();
+                    x = (int) event.getRawX();
+                    y = (int) event.getRawY();
 
                     break;
                 case MotionEvent.ACTION_UP:
-                    //check the moving distance to determine if it is a click event
-                    if (Math.abs(event.getRawX() - x) < 10 && Math.abs(event.getRawY() - y) < 10) {
-                        try {
-                            Field field = View.class.getDeclaredField("mListenerInfo");
-                            field.setAccessible(true);
-                            Object object = field.get(view);
-                            field = object.getClass().getDeclaredField("mOnClickListener");
-                            field.setAccessible(true);
-                            object = field.get(object);
-                            if (object != null && object instanceof View.OnClickListener) {
-                                ((View.OnClickListener) object).onClick(view);
-                            }
-                        } catch (Exception e) {
-                        }
-                    }
                     break;
             }
             return true;
