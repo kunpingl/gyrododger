@@ -16,7 +16,7 @@ public class GameActivity extends Activity {
 
     private int screenWidth;
     private int screenHeight;
-    private ImageView moveIv;
+    private ImageView flight;
 
 
     @Override
@@ -28,13 +28,13 @@ public class GameActivity extends Activity {
         ring.setLooping(true);
         DisplayMetrics dm = getResources().getDisplayMetrics();
         screenWidth = dm.widthPixels;
-        screenHeight = dm.heightPixels - 50;
+        screenHeight = dm.heightPixels;
 
-        moveIv = (ImageView) findViewById(R.id.flight);
-        moveIv.setOnTouchListener(movingEventListener);
-        moveIv.setOnClickListener(new View.OnClickListener() {
+        flight = findViewById(R.id.flight);
+        flight.setOnTouchListener(movingEventListener);
+        flight.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 // click event
             }
         });
@@ -45,7 +45,7 @@ public class GameActivity extends Activity {
         int lastX, lastY, x, y;
 
         @Override
-        public boolean onTouch(View v, MotionEvent event) {
+        public boolean onTouch(View view, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     lastX = (int) event.getRawX();
@@ -53,36 +53,38 @@ public class GameActivity extends Activity {
                     x = (int) event.getRawX();
                     y = (int) event.getRawY();
                     break;
+                    
                 case MotionEvent.ACTION_MOVE:
                     int dx = (int) event.getRawX() - lastX;
                     int dy = (int) event.getRawY() - lastY;
 
-                    int left = v.getLeft() + dx;
-                    int top = v.getTop() + dy;
-                    int right = v.getRight() + dx;
-                    int bottom = v.getBottom() + dy;
+                    int leftBound = view.getLeft() + dx;
+                    int topBound = view.getTop() + dy;
+                    int rightBound = view.getRight() + dx;
+                    int bottomBound = view.getBottom() + dy;
+                    
                     // The flight can not pass over the bound of screen
-                    if (left < 0) {
-                        left = 0;
-                        right = left + v.getWidth();
+                    if (leftBound < 0) {
+                        leftBound = 0;
+                        rightBound = leftBound + view.getWidth();
                     }
 
-                    if (right > screenWidth) {
-                        right = screenWidth;
-                        left = right - v.getWidth();
+                    if (rightBound > screenWidth) {
+                        rightBound = screenWidth;
+                        leftBound = rightBound - view.getWidth();
                     }
 
-                    if (top < 0) {
-                        top = 0;
-                        bottom = top + v.getHeight();
+                    if (topBound < 0) {
+                        topBound = 0;
+                        bottomBound = topBound + view.getHeight();
                     }
 
-                    if (bottom > screenHeight) {
-                        bottom = screenHeight;
-                        top = bottom - v.getHeight();
+                    if (bottomBound > screenHeight) {
+                        bottomBound = screenHeight;
+                        topBound = bottomBound - view.getHeight();
                     }
 
-                    v.layout(left, top, right, bottom);
+                    view.layout(leftBound, topBound, rightBound, bottomBound);
 
                     lastX = (int) event.getRawX();
                     lastY = (int) event.getRawY();
@@ -94,12 +96,12 @@ public class GameActivity extends Activity {
                         try {
                             Field field = View.class.getDeclaredField("mListenerInfo");
                             field.setAccessible(true);
-                            Object object = field.get(v);
+                            Object object = field.get(view);
                             field = object.getClass().getDeclaredField("mOnClickListener");
                             field.setAccessible(true);
                             object = field.get(object);
                             if (object != null && object instanceof View.OnClickListener) {
-                                ((View.OnClickListener) object).onClick(v);
+                                ((View.OnClickListener) object).onClick(view);
                             }
                         } catch (Exception e) {
                         }
