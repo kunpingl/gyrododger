@@ -24,62 +24,67 @@ public class GameActivity extends Activity {
         ring.start();
         ring.setLooping(true);
 
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        screenWidth = dm.widthPixels;
-        screenHeight = dm.heightPixels;
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        screenWidth = displayMetrics.widthPixels;
+        screenHeight = displayMetrics.heightPixels;
 
         flight = findViewById(R.id.flight);
         flight.setOnTouchListener(movingEventListener);
     }
 
+    private void setBound(View view, int leftBound, int rightBound, int topBound, int bottomBound) {
+        // The flight can not pass over the bound of screen
+        if (leftBound < 0) {
+            leftBound = 0;
+            rightBound = leftBound + view.getWidth();
+        }
+
+        if (rightBound > screenWidth) {
+            rightBound = screenWidth;
+            leftBound = rightBound - view.getWidth();
+        }
+
+        if (topBound < 0) {
+            topBound = 0;
+            bottomBound = topBound + view.getHeight();
+        }
+
+        if (bottomBound > screenHeight) {
+            bottomBound = screenHeight;
+            topBound = bottomBound - view.getHeight();
+        }
+
+        view.layout(leftBound, topBound, rightBound, bottomBound);
+    }
+
 
     private OnTouchListener movingEventListener = new OnTouchListener() {
-        int x;
-        int y;
+        int xCoordinate; // current X coordinate
+        int yCoordinate; // current Y coordinate
+        int xDelta;
+        int yDelta;
 
         @Override
         public boolean onTouch(View view, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    x = (int) event.getRawX();
-                    y = (int) event.getRawY();
+                    xCoordinate = (int) event.getRawX();
+                    yCoordinate = (int) event.getRawY();
                     break;
 
                 case MotionEvent.ACTION_MOVE:
-                    int dx = (int) event.getRawX() - x;
-                    int dy = (int) event.getRawY() - y;
+                    xDelta = (int) event.getRawX() - xCoordinate;
+                    yDelta = (int) event.getRawY() - yCoordinate;
 
-                    int leftBound = view.getLeft() + dx;
-                    int topBound = view.getTop() + dy;
-                    int rightBound = view.getRight() + dx;
-                    int bottomBound = view.getBottom() + dy;
+                    int leftBound = view.getLeft() + xDelta;
+                    int topBound = view.getTop() + yDelta;
+                    int rightBound = view.getRight() + xDelta;
+                    int bottomBound = view.getBottom() + yDelta;
 
-                    // The flight can not pass over the bound of screen
-                    if (leftBound < 0) {
-                        leftBound = 0;
-                        rightBound = leftBound + view.getWidth();
-                    }
+                    setBound(view, leftBound, rightBound, topBound, bottomBound);
 
-                    if (rightBound > screenWidth) {
-                        rightBound = screenWidth;
-                        leftBound = rightBound - view.getWidth();
-                    }
-
-                    if (topBound < 0) {
-                        topBound = 0;
-                        bottomBound = topBound + view.getHeight();
-                    }
-
-                    if (bottomBound > screenHeight) {
-                        bottomBound = screenHeight;
-                        topBound = bottomBound - view.getHeight();
-                    }
-
-                    view.layout(leftBound, topBound, rightBound, bottomBound);
-
-                    x = (int) event.getRawX();
-                    y = (int) event.getRawY();
-
+                    xCoordinate = (int) event.getRawX();
+                    yCoordinate = (int) event.getRawY();
                     break;
                 case MotionEvent.ACTION_UP:
                     break;
