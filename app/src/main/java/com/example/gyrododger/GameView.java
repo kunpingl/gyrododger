@@ -20,7 +20,7 @@ public class GameView extends View {
         super(context);
         Bitmap temp_player = BitmapFactory.decodeResource(getResources(), R.drawable.player);
         player = Bitmap.createScaledBitmap(
-                temp_player, 300, 300, false);
+                temp_player, 200, 200, false);
 
         backgroundImage = BitmapFactory.decodeResource(getResources(), R.drawable.universe);
         scorePaint.setColor(Color.WHITE);

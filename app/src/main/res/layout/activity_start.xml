@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@null"
         android:layout_marginTop="300dp"
-        app:srcCompat="@drawable/btn_main_play" />
+        app:srcCompat="@drawable/ic_btn_main_play_vector" />
+
 
 </LinearLayout>
