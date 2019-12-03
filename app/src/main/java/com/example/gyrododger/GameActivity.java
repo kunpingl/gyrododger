@@ -9,23 +9,21 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
-import java.lang.reflect.Field;
-
-
 public class GameActivity extends Activity {
 
     private int screenWidth;
     private int screenHeight;
     private ImageView flight;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        MediaPlayer ring= MediaPlayer.create(GameActivity.this,R.raw.music);
+
+        MediaPlayer ring = MediaPlayer.create(GameActivity.this, R.raw.music);
         ring.start();
         ring.setLooping(true);
+
         DisplayMetrics dm = getResources().getDisplayMetrics();
         screenWidth = dm.widthPixels;
         screenHeight = dm.heightPixels;
@@ -52,7 +50,7 @@ public class GameActivity extends Activity {
                     x = (int) event.getRawX();
                     y = (int) event.getRawY();
                     break;
-                    
+
                 case MotionEvent.ACTION_MOVE:
                     int dx = (int) event.getRawX() - x;
                     int dy = (int) event.getRawY() - y;
@@ -61,7 +59,7 @@ public class GameActivity extends Activity {
                     int topBound = view.getTop() + dy;
                     int rightBound = view.getRight() + dx;
                     int bottomBound = view.getBottom() + dy;
-                    
+
                     // The flight can not pass over the bound of screen
                     if (leftBound < 0) {
                         leftBound = 0;
