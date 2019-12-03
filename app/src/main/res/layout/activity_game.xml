@@ -5,15 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/universe"
-    android:id="@+id/main"
+    android:id="@+id/background_space"
     tools:context=".GameActivity">
 
     <ImageView
-        android:id="@+id/image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:id="@+id/flight"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="59dp"
+        android:layout_marginTop="266dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/player" />
 
