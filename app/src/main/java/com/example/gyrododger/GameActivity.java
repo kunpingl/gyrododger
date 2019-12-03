@@ -15,7 +15,7 @@ public class GameActivity extends Activity {
 
     private int screenWidth;
     private int screenHeight;
-    private ImageView moveIv;
+    private ImageView flight;
 
 
     @Override
@@ -25,11 +25,11 @@ public class GameActivity extends Activity {
 
         DisplayMetrics dm = getResources().getDisplayMetrics();
         screenWidth = dm.widthPixels;
-        screenHeight = dm.heightPixels - 50;
+        screenHeight = dm.heightPixels;
 
-        moveIv = (ImageView) findViewById(R.id.flight);
-        moveIv.setOnTouchListener(movingEventListener);
-        moveIv.setOnClickListener(new View.OnClickListener() {
+        flight = findViewById(R.id.flight);
+        flight.setOnTouchListener(movingEventListener);
+        flight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // click event
@@ -58,6 +58,7 @@ public class GameActivity extends Activity {
                     int top = v.getTop() + dy;
                     int right = v.getRight() + dx;
                     int bottom = v.getBottom() + dy;
+                    
                     // The flight can not pass over the bound of screen
                     if (left < 0) {
                         left = 0;
