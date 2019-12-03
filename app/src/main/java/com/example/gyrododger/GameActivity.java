@@ -52,7 +52,7 @@ public class GameActivity extends Activity {
 
                     case MotionEvent.ACTION_UP:
                         Toast.makeText(GameActivity.this,
-                                "I'm here!", Toast.LENGTH_SHORT)
+                                "Wooooo!", Toast.LENGTH_SHORT)
                                 .show();
                         break;
 
