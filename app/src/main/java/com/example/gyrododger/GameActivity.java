@@ -30,12 +30,6 @@ public class GameActivity extends Activity {
 
         flight = findViewById(R.id.flight);
         flight.setOnTouchListener(movingEventListener);
-        flight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // click event
-            }
-        });
     }
 
 
