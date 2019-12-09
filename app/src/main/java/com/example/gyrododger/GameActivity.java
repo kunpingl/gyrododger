@@ -27,9 +27,7 @@ public class GameActivity extends AppCompatActivity {
     private int playerY;
 
     private float playerL;
-    private float playerR;
     private float playerT;
-    private float playerB;
 
     private ImageView redBall;
     private float redBallX;
@@ -154,8 +152,6 @@ public class GameActivity extends AppCompatActivity {
                 case MotionEvent.ACTION_UP:
                     break;
             }
-            System.out.println("playerX = " + playerX + " compareWith " + playerL);
-            System.out.println("playerY = " + playerY + " compareWith " + playerT);
             return true;
         }
     };
