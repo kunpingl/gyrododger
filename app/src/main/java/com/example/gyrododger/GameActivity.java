@@ -43,8 +43,10 @@ public class GameActivity extends AppCompatActivity {
 
     private Timer timer = new Timer();
     private Handler handler = new Handler();
+    private Random random = new Random();
 
     private List<ImageView> enemyList;
+
 
 
     @Override
@@ -121,19 +123,20 @@ public class GameActivity extends AppCompatActivity {
         float newY = enemy.getY();
         float newX = enemy.getX();
 
-        if (enemy.getTag() == "down") {
+        if (enemy.getTag().equals("down")) {
             newY += 10;
-        } else if (enemy.getTag() == "up") {
+        } else if (enemy.getTag().equals("up")) {
             newY -= 10;
-        } else if (enemy.getTag() == "left") {
+        } else if (enemy.getTag().equals("left")) {
             newX -= 10;
-        } else if (enemy.getTag() == "right") {
+        } else if (enemy.getTag().equals("right")) {
             newX += 10;
         }
 
         if (CollisionCheck(redL, redR, redT, redB)) {
             respawnEnemy(enemy);
         }
+
         if (WallCheck(enemy, redL, redT)) {
             respawnEnemy(enemy);
         }
@@ -144,37 +147,26 @@ public class GameActivity extends AppCompatActivity {
 
     private void respawnEnemy(ImageView image) {
         String direction;
-        float x = 0;
-        float y = 0;
-        boolean horiOrVerti = true;
-        //true is Vertical and false is Horizontal
-        boolean startPoint = true;
-        //true is start from 0 and false otherwise
-        double side = Math.random();
-        if (side > 0.49) {
-            horiOrVerti = false;
-        }
-        side = Math.random();
-        if (side > 0.49) {
-            startPoint = false;
-        }
+        float x, y;
+        boolean horiOrVerti = random.nextBoolean(); //true is Vertical and false is Horizontal
+        boolean startPoint = random.nextBoolean(); //true is start from 0 and false otherwise
         if (horiOrVerti) {
             //move vertically
             x = (float) Math.floor(Math.random() * (screenWidth -  image.getWidth()));
             if (startPoint) {
-                y = - image.getHeight();
+                y = 100.0f;
                 direction = "down";
             } else {
-                y = screenHeight;
+                y = screenHeight - 100.0f;
                 direction = "up";
             }
         } else {
             y = (float) Math.floor(Math.random() * (screenHeight -  image.getHeight()));
             if (startPoint) {
-                x = - image.getWidth();
+                x = 100.0f;
                 direction = "right";
             } else {
-                x = screenWidth;
+                x = screenWidth - 100.0f;
                 direction = "left";
             }
         }
