@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,6 +40,12 @@ public class GameActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private Random random = new Random();
 
+    private int spawnTimer = 0;
+    private boolean firstSpawn = true;
+
+    private List<Enemies> enemiesList;
+    private List<ImageView> iamgeList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +64,7 @@ public class GameActivity extends AppCompatActivity {
         player.setOnTouchListener(movingEventListener);
 
         redBall = findViewById(R.id.redBall);
+        initializer();
 
         timer.schedule(new TimerTask() {
             @Override
@@ -64,7 +72,9 @@ public class GameActivity extends AppCompatActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        redBallLogic();
+                        for (Enemies eachEnemy : enemiesList) {
+                            redBallLogic(eachEnemy);
+                        }
                     }
                 });
             }
@@ -79,22 +89,126 @@ public class GameActivity extends AppCompatActivity {
         return false;
     }
 
-    private void redBallLogic() {
-        redBallY += random.nextInt(100);
-        float redCenterX = redBallX + redBall.getWidth() / 2;
-        float redCenterY = redBallY + redBall.getHeight() / 2;
+    private boolean WallCheck(Enemies enemies, float x, float y) {
+        if (x > screenWidth + enemies.getImage().getWidth() || x < - enemies.getImage().getWidth()) {
+            return true;
+        }
+        if (y > screenHeight + enemies.getImage().getHeight() || x < - enemies.getImage().getHeight()) {
+            return true;
+        }
+        return false;
+    }
+
+    private void redBallLogic(Enemies eachEnemy) {
+        if (eachEnemy.getDirection().equals("left")) {
+            eachEnemy.setSpawnX(eachEnemy.getSpawnX() - random.nextInt(100));
+        } else if (eachEnemy.getDirection().equals("right")) {
+            eachEnemy.setSpawnX(eachEnemy.getSpawnX() + random.nextInt(100));
+        } else if (eachEnemy.getDirection().equals("up")) {
+            eachEnemy.setSpawnY(eachEnemy.getSpawnY() - random.nextInt(100));
+        } else {
+            eachEnemy.setSpawnY(eachEnemy.getSpawnY() + random.nextInt(100));
+        }
+
+        float redCenterX = eachEnemy.getSpawnX() + redBall.getWidth() / 2;
+        float redCenterY = eachEnemy.getSpawnY() + redBall.getHeight() / 2;
 
         if (CollisionCheck(redCenterX, redCenterY)) {
-            redBallY = screenHeight + 50;
+            enemiesList.remove(eachEnemy);
+            SpawnEnemy(false, 0, 0);
         }
 
-        if (redBallY > screenHeight) {
-            redBallY = -100;
-            redBallX = (float) Math.floor(Math.random() * (screenWidth - redBall.getWidth()));
+        if (WallCheck(eachEnemy, redCenterX, redCenterY)) {
+            enemiesList.remove(eachEnemy);
+            SpawnEnemy(false, 0, 0);
         }
-        redBall.setX(redBallX);
-        redBall.setY(redBallY);
+
+
+//        float redCenterX = redBallX + redBall.getWidth() / 2;
+//        float redCenterY = redBallY + redBall.getHeight() / 2;
+//
+//        if (CollisionCheck(redCenterX, redCenterY)) {
+//            redBallY = screenHeight + 50;
+//        }
+//
+//        if (redBallY > screenHeight) {
+//            redBallY = -100;
+//            redBallX = (float) Math.floor(Math.random() * (screenWidth - redBall.getWidth()));
+//        }
+//        redBall.setX(redBallX);
+//        redBall.setY(redBallY);
     }
+
+    private void initializer() {
+        spawnTimer += 1;
+        if (firstSpawn == true) {
+            Double randomNum = Math.random();
+            if (randomNum > 0.49) {
+                SpawnEnemy(true, screenWidth + 2 * redBall.getHeight(), 0);
+            } else {
+                SpawnEnemy(true, -2 * redBall.getHeight(), 0);
+            }
+            randomNum = Math.random();
+            if (randomNum > 0.49) {
+                SpawnEnemy(true, 0, screenHeight - 2 * redBall.getHeight());
+            } else {
+                SpawnEnemy(true, 0, screenHeight - 2 * redBall.getHeight());
+            }
+            firstSpawn = false;
+        }
+        if (spawnTimer == 200) {
+            SpawnEnemy(false, 0, 0);
+        }
+    }
+
+    private Enemies SpawnEnemy(boolean isPreset, float x, float y) {
+        float spawnY = (float) Math.floor(Math.random() * (screenHeight - 2 * redBall.getHeight()));
+        float spawnX = (float) Math.floor(Math.random() * (screenWidth - 2 * redBall.getWidth()));
+        spawnY += redBall.getHeight();
+        spawnX += redBall.getWidth();
+
+        Double verticiesA = Math.random();
+        Double verticiesB = Math.random();
+
+        String direction = "none";
+        //Random generator = new Random();
+        //int randomIndex = generator.nextInt(myArray.length);
+        ImageView enemyImage = findViewById(R.id.redBall);
+        if (!isPreset) {
+            if (verticiesA > 0.49) {
+                if (verticiesB > 0.49) {
+                    spawnY = screenHeight + 2 * redBall.getHeight();
+                } else {
+                    spawnY = -2 * redBall.getHeight();
+                }
+            } else {
+                if (verticiesB > 0.49) {
+                    spawnX = screenWidth + 2 * redBall.getWidth();
+                } else {
+                    spawnX = -2 * redBall.getWidth();
+                }
+            }
+        } else {
+            if (x == 0) {
+                spawnY = y;
+            } else if (y == 0) {
+                spawnX = x;
+            }
+        }
+        if (spawnX > screenWidth) {
+            direction = "left";
+        } else if (spawnX < 0) {
+            direction = "right";
+        } else if (spawnY > screenHeight) {
+            direction = "up";
+        } else if (spawnY < 0) {
+            direction = "down";
+        }
+        Enemies newEnemy = new Enemies(spawnX, spawnY, direction, enemyImage);
+        enemiesList.add(newEnemy);
+        return newEnemy;
+    }
+
 
     private void setBound(View view, int leftBound, int rightBound, int topBound, int bottomBound) {
         // The player can not pass over the bound of screen
