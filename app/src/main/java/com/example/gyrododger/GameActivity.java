@@ -218,7 +218,7 @@ public class GameActivity extends AppCompatActivity {
         if (r >= player.getLeft() && r <= player.getRight()) {
             if (t < player.getBottom() && b > player.getTop()) {
                 if (ballChecker(view) == 1) {
-                    factor -= 5;
+                    factor -= 10;
                     golden_flg = false;
                 } else if (ballChecker(view) == 0) {
                     lifeChecker();
@@ -267,7 +267,7 @@ public class GameActivity extends AppCompatActivity {
     private void timeChecker() {
         System.out.println(timeCount);
         if (timeCount % 350 == 0) {
-            factor += 10;
+            factor += 15;
         }
         // about 10 sec
         if (timeCount % 500 == 0 && factor > 20) {
