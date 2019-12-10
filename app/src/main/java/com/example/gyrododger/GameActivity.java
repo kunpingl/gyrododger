@@ -40,8 +40,8 @@ public class GameActivity extends AppCompatActivity {
 
     private int timeCount = 0;
     private int factor = 15;
-
     private boolean purple_flg;
+    private int lostPoint = 0;
 
     private Timer timer = new Timer();
     private Handler handler = new Handler();
@@ -113,7 +113,7 @@ public class GameActivity extends AppCompatActivity {
     private boolean collisionCheck(ImageView view, float l, float r, float t, float b) {
         if (r >= player.getLeft() && r <= player.getRight()) {
             if (t < player.getBottom() && b > player.getTop()) {
-                if (view.getId() == R.id.purpleBall) {
+                if (ballChecker(view) == 1) {
                     factor -= 5;
                     purple_flg = false;
                 }
@@ -126,7 +126,7 @@ public class GameActivity extends AppCompatActivity {
     private boolean wallCheck(ImageView view, float x, float y) {
         if (x < - 2 * view.getWidth() || x > screenWidth + view.getWidth()
             || y < - 2 * view.getHeight() || y > screenHeight + view.getHeight()) {
-            if (view.getId() == R.id.purpleBall) {
+            if (ballChecker(view) == 1) {
                 purple_flg = false;
             }
             return true;
@@ -135,19 +135,33 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void timeChecker() {
-
+        System.out.println(timeCount);
         if (timeCount % 350 == 0) {
-            factor += 1;
+            factor += 10;
         }
         // about 10 sec
-        if (timeCount % 500 == 0) {
+        if (timeCount % 500 == 0 && factor > 20) {
             purple_flg = true;
+        }
+    }
+
+    /**
+     * to determine the type of balls
+     * @param view the input imageView being checked
+     * @return 0 as red, 1 as purple.
+     */
+    private int ballChecker(ImageView view) {
+        switch (view.getId()) {
+            case R.id.purpleBall:
+                return 1;
+            default:
+                return 0;
         }
     }
 
     private void ballMovingLogic(ImageView view) {
 
-        if (view.getId() == R.id.purpleBall && !purple_flg) {
+        if (ballChecker(view) == 1 && !purple_flg) {
             return;
         }
 
@@ -159,20 +173,29 @@ public class GameActivity extends AppCompatActivity {
         int newY = (int) view.getY();
         int newX = (int) view.getX();
 
-
         float speed = random.nextFloat() * factor;
 
-        if (view.getTag().equals("down")) {
-            newY += speed;
-        } else if (view.getTag().equals("up")) {
-            newY -= speed;
-        } else if (view.getTag().equals("left")) {
-            newX -= speed;
-        } else if (view.getTag().equals("right")) {
-            newX += speed;
+        if (ballChecker(view) == 0) {
+            if (view.getTag().equals("down")) {
+                newY += speed;
+            } else if (view.getTag().equals("up")) {
+                newY -= speed;
+            } else if (view.getTag().equals("left")) {
+                newX -= speed;
+            } else if (view.getTag().equals("right")) {
+                newX += speed;
+            }
+        } else {
+            if (view.getTag().equals("down")) {
+                newY += random.nextInt(30);
+            } else if (view.getTag().equals("up")) {
+                newY -= random.nextInt(30);
+            } else if (view.getTag().equals("left")) {
+                newX -= random.nextInt(30);
+            } else if (view.getTag().equals("right")) {
+                newX += random.nextInt(30);
+            }
         }
-
-
 
         if (collisionCheck(view, ballLeft, ballRight, ballTop, ballBottom)) {
             ballSpawnLogic(view);
