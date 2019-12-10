@@ -41,6 +41,10 @@ public class GameActivity extends AppCompatActivity {
     private float playerL;
     private float playerT;
 
+    private int timeCount = 0;
+    private int factor = 15;
+    private final int point = 200;
+
     private Timer timer = new Timer();
     private Handler handler = new Handler();
     private Random random = new Random();
@@ -80,8 +84,10 @@ public class GameActivity extends AppCompatActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
+                        timeCount++; //10 sec == 477 unit
                         for (ImageView eachEnemy : enemyList) {
                             enemyMove(eachEnemy);
+                            System.out.println(timeCount);
                         }
                     }
                 });
@@ -130,14 +136,20 @@ public class GameActivity extends AppCompatActivity {
         float newY = enemy.getY();
         float newX = enemy.getX();
 
+
+        if (timeCount % point == 0) {
+            factor += 3;
+        }
+        float speed = random.nextFloat() * factor;
+
         if (enemy.getTag().equals("down")) {
-            newY += 10.0f;
+            newY += speed;
         } else if (enemy.getTag().equals("up")) {
-            newY -= 10.0f;
+            newY -= speed;
         } else if (enemy.getTag().equals("left")) {
-            newX -= 10.0f;
+            newX -= speed;
         } else if (enemy.getTag().equals("right")) {
-            newX += 10.0f;
+            newX += speed;
         }
 
         if (CollisionCheck(redL, redR, redT, redB)) {
