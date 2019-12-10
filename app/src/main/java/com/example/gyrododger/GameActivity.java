@@ -38,12 +38,10 @@ public class GameActivity extends AppCompatActivity {
     private int playerX;
     private int playerY;
 
-    private float playerL;
-    private float playerT;
-
     private int timeCount = 0;
     private int factor = 15;
     private final int point = 350;
+    private int purpleCount = 0;
 
     private Timer timer = new Timer();
     private Handler handler = new Handler();
@@ -75,7 +73,7 @@ public class GameActivity extends AppCompatActivity {
 
 
         for (ImageView eachEnemy : enemyList) {
-            respawnEnemy(eachEnemy);
+            ballSpawnLogic(eachEnemy);
         }
 
         timer.schedule(new TimerTask() {
@@ -86,8 +84,7 @@ public class GameActivity extends AppCompatActivity {
                     public void run() {
                         timeCount++; //10 sec == 477 unit
                         for (ImageView eachEnemy : enemyList) {
-                            enemyMove(eachEnemy);
-                            System.out.println(timeCount);
+                            ballMovingLogic(eachEnemy);
                         }
                     }
                 });
@@ -101,18 +98,24 @@ public class GameActivity extends AppCompatActivity {
         ImageView redBall3 = findViewById(R.id.redBall3);
         ImageView redBall4 = findViewById(R.id.redBall4);
         ImageView redBall5 = findViewById(R.id.redBall5);
+        ImageView purpleBall = findViewById(R.id.purpleBall);
 
         enemyList.add(redBall1);
         enemyList.add(redBall2);
         enemyList.add(redBall3);
         enemyList.add(redBall4);
         enemyList.add(redBall5);
+
+        enemyList.add(purpleBall);
     }
 
 
-    private boolean collisionCheck(float l, float r, float t, float b) {
+    private boolean collisionCheck(ImageView view, float l, float r, float t, float b) {
         if (r >= player.getLeft() && r <= player.getRight()) {
             if (t < player.getBottom() && b > player.getTop()) {
+                if (view.getId() == R.id.purpleBall) {
+                    factor = 20;
+                }
                 return true;
             }
         }
@@ -127,56 +130,63 @@ public class GameActivity extends AppCompatActivity {
         return false;
     }
 
-    private void enemyMove(ImageView enemy) {
-        int[] tempLocation = new int[2];
-        enemy.getLocationOnScreen(tempLocation);
+    private void purpleMove(ImageView purple) {
+        float purpleLeft = purple.getX();
+        float purpleRight = purple.getX();
+    }
 
-        float redL = enemy.getX();
-        float redR = enemy.getX() + enemy.getWidth();
-        float redT = enemy.getY();
-        float redB = enemy.getY() + enemy.getHeight();
 
-        int newY = (int) enemy.getY();
-        int newX = (int) enemy.getX();
+    private void ballMovingLogic(ImageView view) {
+        if (view.getId() == R.id.purpleBall) {
+            int purplePoint = 1431; // about 30 sec
+            if (timeCount < purplePoint) {
+                return;
+            }
+        }
 
-        System.out.println("newY= " + newY);
-        System.out.println("newX= " + newX);
+        float ballLeft = view.getX();
+        float ballRight = view.getX() + view.getWidth();
+        float ballTop = view.getY();
+        float ballBottom = view.getY() + view.getHeight();
 
+        int newY = (int) view.getY();
+        int newX = (int) view.getX();
 
         if (timeCount % point == 0) {
             factor += 1;
         }
         float speed = random.nextFloat() * factor;
 
-        if (enemy.getTag().equals("down")) {
+        if (view.getTag().equals("down")) {
             newY += speed;
-        } else if (enemy.getTag().equals("up")) {
+        } else if (view.getTag().equals("up")) {
             newY -= speed;
-        } else if (enemy.getTag().equals("left")) {
+        } else if (view.getTag().equals("left")) {
             newX -= speed;
-        } else if (enemy.getTag().equals("right")) {
+        } else if (view.getTag().equals("right")) {
             newX += speed;
         }
 
 
 
-        if (collisionCheck(redL, redR, redT, redB)) {
-            respawnEnemy(enemy);
-        } else if (wallCheck(enemy, redL, redT)) {
-            respawnEnemy(enemy);
+        if (collisionCheck(view, ballLeft, ballRight, ballTop, ballBottom)) {
+            ballSpawnLogic(view);
+        } else if (wallCheck(view, ballLeft, ballTop)) {
+            ballSpawnLogic(view);
         } else {
-            enemy.setY(newY);
-            enemy.setX(newX);
+            view.setY(newY);
+            view.setX(newX);
         }
 
 
     }
 
-    private void respawnEnemy(ImageView image) {
+    private void ballSpawnLogic(ImageView image) {
         String direction;
         float x, y;
         boolean horiOrVerti = random.nextBoolean(); //true is Vertical and false is Horizontal
         boolean startPoint = random.nextBoolean(); //true is start from 0 and false otherwise
+
         if (horiOrVerti) {
             //move vertically
             x = (float) Math.floor(Math.random() * (screenWidth -  image.getWidth()));
@@ -253,9 +263,6 @@ public class GameActivity extends AppCompatActivity {
 
                     playerX = (int) event.getRawX();
                     playerY = (int) event.getRawY();
-
-                    playerL = player.getLeft();
-                    playerT = player.getTop();
                     break;
                 case MotionEvent.ACTION_UP:
                     break;
