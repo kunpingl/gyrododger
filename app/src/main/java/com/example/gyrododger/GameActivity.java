@@ -112,16 +112,16 @@ public class GameActivity extends AppCompatActivity {
         }, 0, 20);
     }
 
-    private void showTime() {
+    private void endUi() {
 
         TextView showTime = findViewById(R.id.showTime);
         showTime.setText(chronometer.getText().toString());
         showTimeText.setX(45f);
         showTimeText.setY(200f);
-        showTime.setX(430f);
+        showTime.setX(410f);
         showTime.setY(1000f);
-        next.setX(45f);
-        next.setY(300f);
+        next.setX(410f);
+        next.setY(1400f);
 
         showTime.setBackgroundColor(Color.parseColor("#FF69B4"));
         showTime.setTextColor(Color.parseColor("#F8F8FF"));
@@ -130,6 +130,7 @@ public class GameActivity extends AppCompatActivity {
         next.setVisibility(View.VISIBLE);
 
         next.setOnClickListener(unused -> {
+            ring.stop();
             finish();
         });
     }
@@ -142,9 +143,9 @@ public class GameActivity extends AppCompatActivity {
         explosion.setVisibility(View.VISIBLE);
 
         chronometer.stop();
-        showTime();
+        endUi();
 
-        Handler handler = new Handler();
+/*        Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -153,7 +154,7 @@ public class GameActivity extends AppCompatActivity {
                 ring.stop();
                 finish();
             }
-        }, 1000000);
+        }, 1000000);*/
 
     }
 
