@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Chronometer;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +94,8 @@ public class GameActivity extends AppCompatActivity {
                             gameOver();
                             return;
                         }
-                        timeCount++; //10 sec == 477 unit
+                        timeCount++;
+                        System.out.println(timeCount);
                         timeChecker();
                         for (ImageView eachEnemy : enemyList) {
                             ballMovingLogic(eachEnemy);
@@ -113,6 +116,10 @@ public class GameActivity extends AppCompatActivity {
         explosion.setY(player.getY());
         player.setVisibility(View.GONE);
         explosion.setVisibility(View.VISIBLE);
+        chronometer.stop();
+        Toast.makeText(GameActivity.this, "The length of time you hold on: " + chronometer.getText().toString(),
+                Toast.LENGTH_SHORT).show();
+
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -126,6 +133,8 @@ public class GameActivity extends AppCompatActivity {
         }, 5000);
 
     }
+
+
 
     private void killImageView() {
         life1.setVisibility(View.GONE);
