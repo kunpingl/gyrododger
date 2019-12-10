@@ -144,39 +144,7 @@ public class GameActivity extends AppCompatActivity {
 
         chronometer.stop();
         endUi();
-
-/*        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //explosion.setVisibility(View.GONE);
-                //killImageView();
-                ring.stop();
-                finish();
-            }
-        }, 1000000);*/
-
     }
-
-
-
-    private void killImageView() {
-
-        chronometer.setVisibility(View.GONE);
-
-        life1.setVisibility(View.GONE);
-        life2.setVisibility(View.GONE);
-        life3.setVisibility(View.GONE);
-
-        lostLife1.setVisibility(View.GONE);
-        lostLife2.setVisibility(View.GONE);
-        lostLife3.setVisibility(View.GONE);
-
-        for (ImageView eachBall : enemyList) {
-            eachBall.setVisibility(View.GONE);
-        }
-    }
-
 
     private void initiateGame() {
         next = findViewById(R.id.next);
