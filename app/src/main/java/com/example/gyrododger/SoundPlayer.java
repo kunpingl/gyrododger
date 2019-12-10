@@ -6,6 +6,11 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
 
+/**
+ * The implement of this class come from the YouTuber called codingwithsara
+ * which get posted on his YouTube channel.
+ * This class is used to play some sound in our project and does not have a effect on gaming logic.
+ */
 public class SoundPlayer {
     private AudioAttributes audioAttributes;
     final int SOUND_POOL_MAX = 2;

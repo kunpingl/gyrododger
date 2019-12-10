@@ -109,7 +109,7 @@ public class GameActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 0, 20);
+        }, 0, 5);
     }
 
     private void endUi() {
@@ -267,7 +267,7 @@ public class GameActivity extends AppCompatActivity {
     private void timeChecker() {
         System.out.println(timeCount);
         if (timeCount % 350 == 0) {
-            factor += 15;
+            factor += 2 ;
         }
         // about 10 sec
         if (timeCount % 500 == 0 && factor > 20) {
