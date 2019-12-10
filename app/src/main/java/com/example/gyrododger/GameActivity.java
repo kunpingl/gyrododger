@@ -41,7 +41,7 @@ public class GameActivity extends AppCompatActivity {
     private int timeCount = 0;
     private int factor = 15;
     private boolean purple_flg;
-    private int lostPoint = 0;
+    private int life = 3;
 
     private Timer timer = new Timer();
     private Handler handler = new Handler();
@@ -116,6 +116,8 @@ public class GameActivity extends AppCompatActivity {
                 if (ballChecker(view) == 1) {
                     factor -= 5;
                     purple_flg = false;
+                } else if (ballChecker(view) == 0) {
+                    life--;
                 }
                 return true;
             }
