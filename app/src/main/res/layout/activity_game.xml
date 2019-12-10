@@ -136,10 +136,12 @@
 
     <ImageButton
         android:id="@+id/next"
-        android:layout_width="100dp"
-        android:layout_height="80dp"
-        android:gravity="center"
-        app:srcCompat="@drawable/next"
+        android:layout_width="102dp"
+        android:layout_height="45dp"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/new_next"
         tools:visibility="invisible" />
 
     <TextView
