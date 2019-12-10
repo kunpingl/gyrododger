@@ -67,11 +67,8 @@ public class GameActivity extends AppCompatActivity {
         player = findViewById(R.id.player);
         player.setOnTouchListener(movingEventListener);
 
-        ImageView redBall = findViewById(R.id.redBall);
-        ImageView greenBall = findViewById(R.id.greenBall);
+        addBall();
 
-        enemyList.add(redBall);
-        enemyList.add(greenBall);
 
         for (ImageView eachEnemy : enemyList) {
             respawnEnemy(eachEnemy);
@@ -92,14 +89,24 @@ public class GameActivity extends AppCompatActivity {
         }, 0, 20);
     }
 
+    private void addBall() {
+        ImageView redBall1 = findViewById(R.id.redBall1);
+        ImageView redBall2 = findViewById(R.id.redBall2);
+        ImageView redBall3 = findViewById(R.id.redBall3);
+        ImageView redBall4 = findViewById(R.id.redBall4);
+        ImageView redBall5 = findViewById(R.id.redBall5);
+
+        enemyList.add(redBall1);
+        enemyList.add(redBall2);
+        enemyList.add(redBall3);
+        enemyList.add(redBall4);
+        enemyList.add(redBall5);
+    }
+
+
     private boolean CollisionCheck(float l, float r, float t, float b) {
-        if (r >= player.getLeft()) {
-            if (t < player.getBottom() || b > player.getTop()) {
-                return true;
-            }
-        }
-        if (l <= player.getRight()) {
-            if (t < player.getBottom() || b > player.getTop()) {
+        if (r >= player.getLeft() && r <= player.getRight()) {
+            if (t < player.getBottom() && b > player.getTop()) {
                 return true;
             }
         }
@@ -124,25 +131,25 @@ public class GameActivity extends AppCompatActivity {
         float newX = enemy.getX();
 
         if (enemy.getTag().equals("down")) {
-            newY += 10;
+            newY += 10.0f;
         } else if (enemy.getTag().equals("up")) {
-            newY -= 10;
+            newY -= 10.0f;
         } else if (enemy.getTag().equals("left")) {
-            newX -= 10;
+            newX -= 10.0f;
         } else if (enemy.getTag().equals("right")) {
-            newX += 10;
+            newX += 10.0f;
         }
 
         if (CollisionCheck(redL, redR, redT, redB)) {
             respawnEnemy(enemy);
-        }
-
-        if (WallCheck(enemy, redL, redT)) {
+        } else if (WallCheck(enemy, redL, redT)) {
             respawnEnemy(enemy);
+        } else {
+            enemy.setY(newY);
+            enemy.setX(newX);
         }
 
-        enemy.setY(newY);
-        enemy.setX(newX);
+
     }
 
     private void respawnEnemy(ImageView image) {
@@ -154,16 +161,16 @@ public class GameActivity extends AppCompatActivity {
             //move vertically
             x = (float) Math.floor(Math.random() * (screenWidth -  image.getWidth()));
             if (startPoint) {
-                y = 100.0f;
+                y = -100.0f;
                 direction = "down";
             } else {
-                y = screenHeight - 100.0f;
+                y = screenHeight + 100.0f;
                 direction = "up";
             }
         } else {
             y = (float) Math.floor(Math.random() * (screenHeight -  image.getHeight()));
             if (startPoint) {
-                x = 100.0f;
+                x = -100.0f;
                 direction = "right";
             } else {
                 x = screenWidth - 100.0f;

@@ -21,13 +21,31 @@
         android:src="@drawable/geoff" />
 
     <ImageView
-        android:id="@+id/redBall"
+        android:id="@+id/redBall1"
         android:layout_width="20dp"
         android:layout_height="20dp"
         app:srcCompat="@drawable/red" />
 
     <ImageView
-        android:id="@+id/greenBall"
+        android:id="@+id/redBall2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:srcCompat="@drawable/red" />
+
+    <ImageView
+        android:id="@+id/redBall3"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:srcCompat="@drawable/red" />
+
+    <ImageView
+        android:id="@+id/redBall4"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:srcCompat="@drawable/red" />
+
+    <ImageView
+        android:id="@+id/redBall5"
         android:layout_width="20dp"
         android:layout_height="20dp"
         app:srcCompat="@drawable/red" />
