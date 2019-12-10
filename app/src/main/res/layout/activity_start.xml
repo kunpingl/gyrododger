@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout"
@@ -8,37 +8,60 @@
     android:background="@drawable/new_menu"
     android:baselineAligned="false"
     android:visibility="visible">
+
     <ImageView
         android:id="@+id/redBall"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="292dp"
-        android:layout_marginLeft="45dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginTop="328dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/red" />
 
     <ImageView
         android:id="@+id/goldenBall"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="315dp"
-        android:layout_marginLeft="45dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/redBall"
         app:srcCompat="@drawable/goldenball" />
 
     <ImageView
         android:id="@+id/life"
         android:layout_width="22dp"
         android:layout_height="22dp"
-        android:layout_marginTop="335dp"
-        android:layout_marginLeft="45dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_main_play"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goldenBall"
+        app:layout_constraintVertical_bias="0.039"
         app:srcCompat="@drawable/life" />
 
     <Button
         android:id="@+id/btn_main_play"
         android:layout_width="135dp"
         android:layout_height="66dp"
-        android:layout_marginTop="510dp"
-        android:layout_marginLeft="117dp"
+        android:layout_marginStart="127dp"
+        android:layout_marginLeft="127dp"
+        android:layout_marginTop="623dp"
+        android:layout_marginEnd="131dp"
+        android:layout_marginRight="131dp"
+        android:layout_marginBottom="94dp"
         android:background="@android:color/transparent"
-        android:text="" />
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.424"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.857" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
