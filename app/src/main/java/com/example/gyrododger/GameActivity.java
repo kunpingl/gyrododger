@@ -173,9 +173,10 @@ public class GameActivity extends AppCompatActivity {
         int newY = (int) view.getY();
         int newX = (int) view.getX();
 
-        float speed = random.nextFloat() * factor;
+
 
         if (ballChecker(view) == 0) {
+            float speed = random.nextFloat() * factor;
             if (view.getTag().equals("down")) {
                 newY += speed;
             } else if (view.getTag().equals("up")) {
@@ -186,14 +187,15 @@ public class GameActivity extends AppCompatActivity {
                 newX += speed;
             }
         } else {
+            int speed = random.nextInt(30);
             if (view.getTag().equals("down")) {
-                newY += random.nextInt(30);
+                newY += speed;
             } else if (view.getTag().equals("up")) {
-                newY -= random.nextInt(30);
+                newY -= speed;
             } else if (view.getTag().equals("left")) {
-                newX -= random.nextInt(30);
+                newX -= speed;
             } else if (view.getTag().equals("right")) {
-                newX += random.nextInt(30);
+                newX += speed;
             }
         }
 
