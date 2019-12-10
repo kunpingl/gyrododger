@@ -1,6 +1,7 @@
 package com.example.gyrododger;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
@@ -51,6 +52,7 @@ public class GameActivity extends AppCompatActivity {
     private ImageView lostLife3;
 
     private int gameStatus = 0; // 0 as inGaming and -1 as End
+    private MediaPlayer ring;
 
     private Timer timer = new Timer();
     private Handler handler = new Handler();
@@ -64,7 +66,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        MediaPlayer ring = MediaPlayer.create(GameActivity.this, R.raw.music);
+        ring = MediaPlayer.create(GameActivity.this, R.raw.music);
         ring.start();
         ring.setLooping(true);
 
@@ -93,6 +95,7 @@ public class GameActivity extends AppCompatActivity {
                     public void run() {
                         // dead, gameOver.
                         if (gameStatus == -1) {
+                            gameOver();
                             return;
                         }
                         timeCount++; //10 sec == 477 unit
@@ -106,13 +109,43 @@ public class GameActivity extends AppCompatActivity {
         }, 0, 20);
     }
 
+    private void gameOver() {
+
+        player.setVisibility(View.GONE);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                killImageView();
+                ring.stop();
+                //finish();
+            }
+        }, 5000);
+
+    }
+
+    private void killImageView() {
+        life1.setVisibility(View.GONE);
+        life2.setVisibility(View.GONE);
+        life3.setVisibility(View.GONE);
+
+        lostLife1.setVisibility(View.GONE);
+        lostLife2.setVisibility(View.GONE);
+        lostLife3.setVisibility(View.GONE);
+
+        for (ImageView eachBall : enemyList) {
+            eachBall.setVisibility(View.GONE);
+        }
+    }
+
+
     private void initiateGame() {
         life1 = findViewById(R.id.life1);
         life2 = findViewById(R.id.life2);
         life3 = findViewById(R.id.life3);
         lostLife1 = findViewById(R.id.lostLife1);
-        lostLife2 = findViewById(R.id.lostLife1);
-        lostLife3 = findViewById(R.id.lostLife1);
+        lostLife2 = findViewById(R.id.lostLife2);
+        lostLife3 = findViewById(R.id.lostLife3);
 
         ImageView redBall1 = findViewById(R.id.redBall1);
         ImageView redBall2 = findViewById(R.id.redBall2);
