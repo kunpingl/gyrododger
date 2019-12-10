@@ -3,10 +3,12 @@ package com.example.gyrododger;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
@@ -16,6 +18,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class GameActivity extends AppCompatActivity {
+
+    private SoundPlayer soundPlayer;
+    private Chronometer chronometer;
 
     private int screenWidth;
     private int screenHeight;
@@ -57,6 +62,8 @@ public class GameActivity extends AppCompatActivity {
         ring.start();
         ring.setLooping(true);
 
+        soundPlayer = new SoundPlayer(this);
+
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         screenWidth = displayMetrics.widthPixels;
         screenHeight = displayMetrics.heightPixels;
@@ -96,6 +103,10 @@ public class GameActivity extends AppCompatActivity {
         }, 0, 20);
     }
 
+    private void endUi() {
+
+    }
+
     private void gameOver() {
 
         explosion.setX(player.getX());
@@ -108,6 +119,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void run() {
                 killImageView();
+                endUi();
                 ring.stop();
                 //finish();
             }
@@ -133,6 +145,11 @@ public class GameActivity extends AppCompatActivity {
     private void initiateGame() {
         explosion = findViewById(R.id.explosion);
         explosion.setVisibility(View.INVISIBLE);
+
+        chronometer = findViewById(R.id.chronometer);
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        chronometer.start();
+
 
         life1 = findViewById(R.id.life1);
         life2 = findViewById(R.id.life2);
@@ -168,8 +185,11 @@ public class GameActivity extends AppCompatActivity {
                     lifeChecker();
                     if (life <= 0) {
                         gameStatus = -1;
+                        soundPlayer.playExplosionSound();
+                    } else {
+                        soundPlayer.playHitSound();
+                        life--;
                     }
-                    life--;
                 }
                 return true;
             }

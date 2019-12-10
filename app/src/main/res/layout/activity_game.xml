@@ -9,6 +9,16 @@
     android:id="@+id/background_space"
     tools:context=".GameActivity">
 
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignRight="@id/life1"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="150dp"
+        android:layout_gravity="center_horizontal"
+        android:textSize="25sp" />
+
     <ImageView
         android:id="@+id/player"
         android:layout_width="50dp"
@@ -22,8 +32,8 @@
 
     <ImageView
         android:id="@+id/explosion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         tools:visibility="invisible"
         app:srcCompat="@drawable/explosion" />
 
