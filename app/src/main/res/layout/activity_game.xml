@@ -56,5 +56,57 @@
         android:layout_height="20dp"
         app:srcCompat="@drawable/goldenball" />
 
+    <ImageView
+        android:id="@+id/life1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        app:srcCompat="@drawable/life" />
+
+    <ImageView
+        android:id="@+id/life2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignRight="@id/life1"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="43dp"
+        app:srcCompat="@drawable/life" />
+
+    <ImageView
+        android:id="@+id/life3"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignRight="@id/life2"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="88dp"
+        app:srcCompat="@drawable/life" />
+
+    <ImageView
+        android:id="@+id/lostLife1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        app:srcCompat="@drawable/loselife"
+        tools:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/lostLife2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignRight="@id/life1"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="43dp"
+        app:srcCompat="@drawable/loselife"
+        tools:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/lostLife3"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignRight="@id/life2"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="88dp"
+        app:srcCompat="@drawable/loselife"
+        tools:visibility="invisible" />
 
 </RelativeLayout>

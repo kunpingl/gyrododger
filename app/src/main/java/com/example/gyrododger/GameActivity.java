@@ -41,7 +41,15 @@ public class GameActivity extends AppCompatActivity {
     private int timeCount = 0;
     private int factor = 15;
     private boolean golden_flg;
+
     private int life = 2; // 3 hit game over.
+    private ImageView life1;
+    private ImageView life2;
+    private ImageView life3;
+    private ImageView lostLife1;
+    private ImageView lostLife2;
+    private ImageView lostLife3;
+
     private int gameStatus = 0; // 0 as inGaming and -1 as End
 
     private Timer timer = new Timer();
@@ -69,7 +77,7 @@ public class GameActivity extends AppCompatActivity {
         player = findViewById(R.id.player);
         player.setOnTouchListener(movingEventListener);
 
-        addBall();
+        initiateGame();
 
         for (ImageView eachEnemy : enemyList) {
             ballSpawnLogic(eachEnemy);
@@ -98,7 +106,14 @@ public class GameActivity extends AppCompatActivity {
         }, 0, 20);
     }
 
-    private void addBall() {
+    private void initiateGame() {
+        life1 = findViewById(R.id.life1);
+        life2 = findViewById(R.id.life2);
+        life3 = findViewById(R.id.life3);
+        lostLife1 = findViewById(R.id.lostLife1);
+        lostLife2 = findViewById(R.id.lostLife1);
+        lostLife3 = findViewById(R.id.lostLife1);
+
         ImageView redBall1 = findViewById(R.id.redBall1);
         ImageView redBall2 = findViewById(R.id.redBall2);
         ImageView redBall3 = findViewById(R.id.redBall3);
@@ -123,6 +138,7 @@ public class GameActivity extends AppCompatActivity {
                     factor -= 5;
                     golden_flg = false;
                 } else if (ballChecker(view) == 0) {
+                    lifeChecker();
                     if (life <= 0) {
                         gameStatus = -1;
                     }
@@ -132,6 +148,23 @@ public class GameActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private void lifeChecker() {
+        switch (life) {
+            case 2:
+                life1.setVisibility(View.INVISIBLE);
+                lostLife1.setVisibility(View.VISIBLE);
+                break;
+            case 1:
+                life2.setVisibility(View.INVISIBLE);
+                lostLife2.setVisibility(View.VISIBLE);
+                break;
+            case 0:
+                life3.setVisibility(View.INVISIBLE);
+                lostLife3.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
     private boolean wallCheck(ImageView view, float x, float y) {
