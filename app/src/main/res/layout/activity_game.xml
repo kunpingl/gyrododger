@@ -126,4 +126,20 @@
         app:srcCompat="@drawable/loselife"
         tools:visibility="invisible" />
 
+    <ImageView
+        android:id="@+id/showTimeText"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:gravity="center"
+        app:srcCompat="@drawable/end_show_time"
+        tools:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/showTime"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:textSize="30sp"
+        android:gravity="center"
+        tools:visibility="invisible" />
+
 </RelativeLayout>

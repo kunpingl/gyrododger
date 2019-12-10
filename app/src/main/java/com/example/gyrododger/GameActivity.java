@@ -1,5 +1,7 @@
 package com.example.gyrododger;
 
+import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,9 +12,13 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Chronometer;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -47,6 +53,7 @@ public class GameActivity extends AppCompatActivity {
 
     private int gameStatus = 0; // 0 as inGaming and -1 as End
     private MediaPlayer ring;
+    private ImageView showTimeText;
 
     private Timer timer = new Timer();
     private Handler handler = new Handler();
@@ -110,33 +117,51 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    private void showTime() {
+
+        TextView showTime = findViewById(R.id.showTime);
+        showTime.setText(chronometer.getText().toString());
+        showTimeText.setX(45f);
+        showTimeText.setY(200f);
+        showTime.setX(430f);
+        showTime.setY(1000f);
+
+        showTime.setBackgroundColor(Color.parseColor("#FF69B4"));
+        showTime.setTextColor(Color.parseColor("#F8F8FF"));
+        showTime.setVisibility(View.VISIBLE);
+        showTimeText.setVisibility(View.VISIBLE);
+    }
+
     private void gameOver() {
 
         explosion.setX(player.getX());
         explosion.setY(player.getY());
         player.setVisibility(View.GONE);
         explosion.setVisibility(View.VISIBLE);
-        chronometer.stop();
-        Toast.makeText(GameActivity.this, "The length of time you hold on: " + chronometer.getText().toString(),
-                Toast.LENGTH_SHORT).show();
 
+        chronometer.stop();
+        showTime();
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                killImageView();
+                //explosion.setVisibility(View.GONE);
+                //killImageView();
                 endUi();
                 ring.stop();
-                //finish();
+                finish();
             }
-        }, 5000);
+        }, 1000000);
 
     }
 
 
 
     private void killImageView() {
+
+        chronometer.setVisibility(View.GONE);
+
         life1.setVisibility(View.GONE);
         life2.setVisibility(View.GONE);
         life3.setVisibility(View.GONE);
@@ -154,11 +179,12 @@ public class GameActivity extends AppCompatActivity {
     private void initiateGame() {
         explosion = findViewById(R.id.explosion);
         explosion.setVisibility(View.INVISIBLE);
+        showTimeText = findViewById(R.id.showTimeText);
+        showTimeText.setVisibility(View.INVISIBLE);
 
         chronometer = findViewById(R.id.chronometer);
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
-
 
         life1 = findViewById(R.id.life1);
         life2 = findViewById(R.id.life2);
