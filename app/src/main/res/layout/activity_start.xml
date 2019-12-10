@@ -1,19 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/new_menu"
+    android:baselineAligned="false"
     android:visibility="visible">
+    <ImageView
+        android:id="@+id/redBall"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="292dp"
+        android:layout_marginLeft="45dp"
+        app:srcCompat="@drawable/red" />
+
+    <ImageView
+        android:id="@+id/goldenBall"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="315dp"
+        android:layout_marginLeft="45dp"
+        app:srcCompat="@drawable/goldenball" />
+
+    <ImageView
+        android:id="@+id/life"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="335dp"
+        android:layout_marginLeft="45dp"
+        app:srcCompat="@drawable/life" />
 
     <Button
         android:id="@+id/btn_main_play"
-        android:layout_width="128dp"
-        android:layout_height="67dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="508dp"
+        android:layout_width="135dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="510dp"
+        android:layout_marginLeft="117dp"
         android:background="@android:color/transparent"
         android:text="" />
 
-</LinearLayout>
+</RelativeLayout>

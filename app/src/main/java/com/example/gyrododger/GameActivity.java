@@ -40,7 +40,7 @@ public class GameActivity extends AppCompatActivity {
 
     private int timeCount = 0;
     private int factor = 15;
-    private boolean purple_flg;
+    private boolean golden_flg;
     private int life = 2; // 3 hit game over.
     private int gameStatus = 0; // 0 as inGaming and -1 as End
 
@@ -104,7 +104,7 @@ public class GameActivity extends AppCompatActivity {
         ImageView redBall3 = findViewById(R.id.redBall3);
         ImageView redBall4 = findViewById(R.id.redBall4);
         ImageView redBall5 = findViewById(R.id.redBall5);
-        ImageView purpleBall = findViewById(R.id.purpleBall);
+        ImageView goldenBall = findViewById(R.id.goldenBall);
 
         enemyList.add(redBall1);
         enemyList.add(redBall2);
@@ -112,7 +112,7 @@ public class GameActivity extends AppCompatActivity {
         enemyList.add(redBall4);
         enemyList.add(redBall5);
 
-        enemyList.add(purpleBall);
+        enemyList.add(goldenBall);
     }
 
 
@@ -121,7 +121,7 @@ public class GameActivity extends AppCompatActivity {
             if (t < player.getBottom() && b > player.getTop()) {
                 if (ballChecker(view) == 1) {
                     factor -= 5;
-                    purple_flg = false;
+                    golden_flg = false;
                 } else if (ballChecker(view) == 0) {
                     if (life <= 0) {
                         gameStatus = -1;
@@ -138,7 +138,7 @@ public class GameActivity extends AppCompatActivity {
         if (x < - 2 * view.getWidth() || x > screenWidth + view.getWidth()
             || y < - 2 * view.getHeight() || y > screenHeight + view.getHeight()) {
             if (ballChecker(view) == 1) {
-                purple_flg = false;
+                golden_flg = false;
             }
             return true;
         }
@@ -152,18 +152,18 @@ public class GameActivity extends AppCompatActivity {
         }
         // about 10 sec
         if (timeCount % 500 == 0 && factor > 20) {
-            purple_flg = true;
+            golden_flg = true;
         }
     }
 
     /**
      * to determine the type of balls
      * @param view the input imageView being checked
-     * @return 0 as red, 1 as purple.
+     * @return 0 as red, 1 as golden.
      */
     private int ballChecker(ImageView view) {
         switch (view.getId()) {
-            case R.id.purpleBall:
+            case R.id.goldenBall:
                 return 1;
             default:
                 return 0;
@@ -172,7 +172,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void ballMovingLogic(ImageView view) {
 
-        if (ballChecker(view) == 1 && !purple_flg) {
+        if (ballChecker(view) == 1 && !golden_flg) {
             return;
         }
 
