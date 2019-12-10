@@ -41,7 +41,8 @@ public class GameActivity extends AppCompatActivity {
     private int timeCount = 0;
     private int factor = 15;
     private boolean purple_flg;
-    private int life = 3;
+    private int life = 2; // 3 hit game over.
+    private int gameStatus = 0; // 0 as inGaming and -1 as End
 
     private Timer timer = new Timer();
     private Handler handler = new Handler();
@@ -70,10 +71,11 @@ public class GameActivity extends AppCompatActivity {
 
         addBall();
 
-
         for (ImageView eachEnemy : enemyList) {
             ballSpawnLogic(eachEnemy);
         }
+
+        gameStatus = 0;
 
         timer.schedule(new TimerTask() {
             @Override
@@ -81,6 +83,10 @@ public class GameActivity extends AppCompatActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
+                        // dead, gameOver.
+                        if (gameStatus == -1) {
+                            return;
+                        }
                         timeCount++; //10 sec == 477 unit
                         timeChecker();
                         for (ImageView eachEnemy : enemyList) {
@@ -117,6 +123,9 @@ public class GameActivity extends AppCompatActivity {
                     factor -= 5;
                     purple_flg = false;
                 } else if (ballChecker(view) == 0) {
+                    if (life <= 0) {
+                        gameStatus = -1;
+                    }
                     life--;
                 }
                 return true;
