@@ -40,13 +40,12 @@ public class GameActivity extends AppCompatActivity {
 
     private int timeCount = 0;
     private int factor = 15;
-    private final int point = 350;
-    private int purpleCount = 0;
+
+    private boolean purple_flg;
 
     private Timer timer = new Timer();
     private Handler handler = new Handler();
     private Random random = new Random();
-
     private List<ImageView> enemyList;
 
 
@@ -83,6 +82,7 @@ public class GameActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         timeCount++; //10 sec == 477 unit
+                        timeChecker();
                         for (ImageView eachEnemy : enemyList) {
                             ballMovingLogic(eachEnemy);
                         }
@@ -114,7 +114,8 @@ public class GameActivity extends AppCompatActivity {
         if (r >= player.getLeft() && r <= player.getRight()) {
             if (t < player.getBottom() && b > player.getTop()) {
                 if (view.getId() == R.id.purpleBall) {
-                    factor = 20;
+                    factor -= 5;
+                    purple_flg = false;
                 }
                 return true;
             }
@@ -122,26 +123,32 @@ public class GameActivity extends AppCompatActivity {
         return false;
     }
 
-    private boolean wallCheck(ImageView image, float x, float y) {
-        if (x < - 2 * image.getWidth() || x > screenWidth + image.getWidth()
-            || y < - 2 * image.getHeight() || y > screenHeight + image.getHeight()) {
+    private boolean wallCheck(ImageView view, float x, float y) {
+        if (x < - 2 * view.getWidth() || x > screenWidth + view.getWidth()
+            || y < - 2 * view.getHeight() || y > screenHeight + view.getHeight()) {
+            if (view.getId() == R.id.purpleBall) {
+                purple_flg = false;
+            }
             return true;
         }
         return false;
     }
 
-    private void purpleMove(ImageView purple) {
-        float purpleLeft = purple.getX();
-        float purpleRight = purple.getX();
+    private void timeChecker() {
+
+        if (timeCount % 350 == 0) {
+            factor += 1;
+        }
+        // about 10 sec
+        if (timeCount % 500 == 0) {
+            purple_flg = true;
+        }
     }
 
-
     private void ballMovingLogic(ImageView view) {
-        if (view.getId() == R.id.purpleBall) {
-            int purplePoint = 1431; // about 30 sec
-            if (timeCount < purplePoint) {
-                return;
-            }
+
+        if (view.getId() == R.id.purpleBall && !purple_flg) {
+            return;
         }
 
         float ballLeft = view.getX();
@@ -152,9 +159,7 @@ public class GameActivity extends AppCompatActivity {
         int newY = (int) view.getY();
         int newX = (int) view.getX();
 
-        if (timeCount % point == 0) {
-            factor += 1;
-        }
+
         float speed = random.nextFloat() * factor;
 
         if (view.getTag().equals("down")) {
