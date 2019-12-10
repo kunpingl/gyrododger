@@ -1,6 +1,5 @@
 package com.example.gyrododger;
 
-import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -11,13 +10,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Chronometer;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +39,8 @@ public class GameActivity extends AppCompatActivity {
     private boolean golden_flg;
 
     private ImageView explosion;
+    private ImageView showTimeText;
+    private ImageButton next;
 
     private int life = 2; // 3 hit game over.
     private ImageView life1;
@@ -53,7 +52,7 @@ public class GameActivity extends AppCompatActivity {
 
     private int gameStatus = 0; // 0 as inGaming and -1 as End
     private MediaPlayer ring;
-    private ImageView showTimeText;
+
 
     private Timer timer = new Timer();
     private Handler handler = new Handler();
@@ -113,10 +112,6 @@ public class GameActivity extends AppCompatActivity {
         }, 0, 20);
     }
 
-    private void endUi() {
-
-    }
-
     private void showTime() {
 
         TextView showTime = findViewById(R.id.showTime);
@@ -125,11 +120,18 @@ public class GameActivity extends AppCompatActivity {
         showTimeText.setY(200f);
         showTime.setX(430f);
         showTime.setY(1000f);
+        next.setX(45f);
+        next.setY(300f);
 
         showTime.setBackgroundColor(Color.parseColor("#FF69B4"));
         showTime.setTextColor(Color.parseColor("#F8F8FF"));
         showTime.setVisibility(View.VISIBLE);
         showTimeText.setVisibility(View.VISIBLE);
+        next.setVisibility(View.VISIBLE);
+
+        next.setOnClickListener(unused -> {
+            finish();
+        });
     }
 
     private void gameOver() {
@@ -148,7 +150,6 @@ public class GameActivity extends AppCompatActivity {
             public void run() {
                 //explosion.setVisibility(View.GONE);
                 //killImageView();
-                endUi();
                 ring.stop();
                 finish();
             }
@@ -177,6 +178,8 @@ public class GameActivity extends AppCompatActivity {
 
 
     private void initiateGame() {
+        next = findViewById(R.id.next);
+        next.setVisibility(View.INVISIBLE);
         explosion = findViewById(R.id.explosion);
         explosion.setVisibility(View.INVISIBLE);
         showTimeText = findViewById(R.id.showTimeText);
