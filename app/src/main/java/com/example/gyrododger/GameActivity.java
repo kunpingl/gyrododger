@@ -43,7 +43,7 @@ public class GameActivity extends AppCompatActivity {
 
     private int timeCount = 0;
     private int factor = 15;
-    private final int point = 200;
+    private final int point = 350;
 
     private Timer timer = new Timer();
     private Handler handler = new Handler();
@@ -138,7 +138,7 @@ public class GameActivity extends AppCompatActivity {
 
 
         if (timeCount % point == 0) {
-            factor += 3;
+            factor += 1;
         }
         float speed = random.nextFloat() * factor;
 
@@ -185,7 +185,7 @@ public class GameActivity extends AppCompatActivity {
                 x = -100.0f;
                 direction = "right";
             } else {
-                x = screenWidth - 100.0f;
+                x = screenWidth + 100.0f;
                 direction = "left";
             }
         }

@@ -20,8 +20,8 @@ public class StartActivity extends AppCompatActivity {
 
         ImageButton btn_main_play = findViewById(R.id.btn_main_play);
         btn_main_play.setOnClickListener(unused -> {
-            startActivityForResult(new Intent(this, GameActivity.class),1);
             ring.stop();
+            startActivityForResult(new Intent(this, GameActivity.class),1);
         });
     }
 }
