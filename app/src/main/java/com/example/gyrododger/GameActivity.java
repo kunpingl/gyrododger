@@ -1,31 +1,16 @@
 package com.example.gyrododger;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -42,6 +27,8 @@ public class GameActivity extends AppCompatActivity {
     private int timeCount = 0;
     private int factor = 15;
     private boolean golden_flg;
+
+    private ImageView explosion;
 
     private int life = 2; // 3 hit game over.
     private ImageView life1;
@@ -111,7 +98,11 @@ public class GameActivity extends AppCompatActivity {
 
     private void gameOver() {
 
+        explosion.setX(player.getX());
+        explosion.setY(player.getY());
         player.setVisibility(View.GONE);
+        explosion.setVisibility(View.VISIBLE);
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -140,6 +131,9 @@ public class GameActivity extends AppCompatActivity {
 
 
     private void initiateGame() {
+        explosion = findViewById(R.id.explosion);
+        explosion.setVisibility(View.INVISIBLE);
+
         life1 = findViewById(R.id.life1);
         life2 = findViewById(R.id.life2);
         life3 = findViewById(R.id.life3);
@@ -351,6 +345,9 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         public boolean onTouch(View view, MotionEvent event) {
+            if (gameStatus == -1) {
+                return false;
+            }
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     playerX = (int) event.getRawX();
