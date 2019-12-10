@@ -18,7 +18,7 @@ public class GameView extends View {
 
     public GameView(Context context) {
         super(context);
-        Bitmap temp_player = BitmapFactory.decodeResource(getResources(), R.drawable.player);
+        Bitmap temp_player = BitmapFactory.decodeResource(getResources(), R.drawable.geoff);
         player = Bitmap.createScaledBitmap(
                 temp_player, 200, 200, false);
 

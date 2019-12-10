@@ -110,7 +110,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-    private boolean CollisionCheck(float l, float r, float t, float b) {
+    private boolean collisionCheck(float l, float r, float t, float b) {
         if (r >= player.getLeft() && r <= player.getRight()) {
             if (t < player.getBottom() && b > player.getTop()) {
                 return true;
@@ -119,7 +119,7 @@ public class GameActivity extends AppCompatActivity {
         return false;
     }
 
-    private boolean WallCheck(ImageView image, float x, float y) {
+    private boolean wallCheck(ImageView image, float x, float y) {
         if (x < - 2 * image.getWidth() || x > screenWidth + image.getWidth()
             || y < - 2 * image.getHeight() || y > screenHeight + image.getHeight()) {
             return true;
@@ -128,13 +128,19 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void enemyMove(ImageView enemy) {
+        int[] tempLocation = new int[2];
+        enemy.getLocationOnScreen(tempLocation);
+
         float redL = enemy.getX();
         float redR = enemy.getX() + enemy.getWidth();
         float redT = enemy.getY();
         float redB = enemy.getY() + enemy.getHeight();
 
-        float newY = enemy.getY();
-        float newX = enemy.getX();
+        int newY = (int) enemy.getY();
+        int newX = (int) enemy.getX();
+
+        System.out.println("newY= " + newY);
+        System.out.println("newX= " + newX);
 
 
         if (timeCount % point == 0) {
@@ -152,9 +158,11 @@ public class GameActivity extends AppCompatActivity {
             newX += speed;
         }
 
-        if (CollisionCheck(redL, redR, redT, redB)) {
+
+
+        if (collisionCheck(redL, redR, redT, redB)) {
             respawnEnemy(enemy);
-        } else if (WallCheck(enemy, redL, redT)) {
+        } else if (wallCheck(enemy, redL, redT)) {
             respawnEnemy(enemy);
         } else {
             enemy.setY(newY);
