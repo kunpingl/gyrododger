@@ -5,7 +5,7 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/new_menu"
+    android:background="@drawable/new_background"
     android:baselineAligned="false"
     android:visibility="visible">
 
@@ -13,9 +13,11 @@
         android:id="@+id/redBall"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginLeft="44dp"
-        android:layout_marginTop="292dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="320dp"
+        app:layout_constraintEnd_toStartOf="@+id/intro_first"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/red" />
@@ -24,29 +26,29 @@
         android:id="@+id/goldenBall"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginLeft="44dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/redBall"
         app:srcCompat="@drawable/goldenball" />
 
     <ImageView
         android:id="@+id/life"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginLeft="44dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_main_play"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/goldenBall"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.009"
         app:srcCompat="@drawable/life" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_main_play"
-        android:layout_width="135dp"
-        android:layout_height="66dp"
+        android:layout_width="132dp"
+        android:layout_height="63dp"
         android:layout_marginStart="127dp"
         android:layout_marginLeft="127dp"
         android:layout_marginTop="623dp"
@@ -54,14 +56,58 @@
         android:layout_marginRight="131dp"
         android:layout_marginBottom="94dp"
         android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
         android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.424"
+        app:layout_constraintHorizontal_bias="0.433"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.857" />
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/new_play" />
+
+    <ImageView
+        android:id="@+id/intro_first"
+        android:layout_width="290dp"
+        android:layout_height="23dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/intro_second"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/intro_first" />
+
+    <ImageView
+        android:id="@+id/intro_second"
+        android:layout_width="290dp"
+        android:layout_height="23dp"
+        app:layout_constraintBottom_toTopOf="@+id/intro_third"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintStart_toEndOf="@+id/goldenBall"
+        app:srcCompat="@drawable/intro_second" />
+
+    <ImageView
+        android:id="@+id/intro_third"
+        android:layout_width="290dp"
+        android:layout_height="23dp"
+        app:layout_constraintBottom_toBottomOf="@+id/life"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintStart_toEndOf="@+id/life"
+        app:srcCompat="@drawable/intro_third" />
+
+    <ImageView
+        android:id="@+id/title"
+        android:layout_width="335dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="144dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/intro_first"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
