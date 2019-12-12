@@ -15,7 +15,7 @@
         android:layout_height="20dp"
         android:layout_marginStart="44dp"
         android:layout_marginLeft="44dp"
-        android:layout_marginTop="328dp"
+        android:layout_marginTop="292dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/red" />
@@ -26,7 +26,7 @@
         android:layout_height="20dp"
         android:layout_marginStart="44dp"
         android:layout_marginLeft="44dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/redBall"
         app:srcCompat="@drawable/goldenball" />
@@ -40,7 +40,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_main_play"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/goldenBall"
-        app:layout_constraintVertical_bias="0.039"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/life" />
 
     <Button
