@@ -34,15 +34,15 @@ public class GameActivity extends AppCompatActivity {
     private int playerX;
     private int playerY;
 
-    private int timeCount = 0;
-    private int factor = 15;
+    private int timer_speed = 0;
+    private int factor_speed = 5;
     private boolean golden_flg;
 
     private ImageView explosion;
-    private ImageView showTimeText;
+    private ImageView survivalTime_sec;
     private ImageButton next;
 
-    private int life = 2; // 3 hit game over.
+    private int life = 2; // 3 hits game over.
     private ImageView life1;
     private ImageView life2;
     private ImageView life3;
@@ -51,7 +51,7 @@ public class GameActivity extends AppCompatActivity {
     private ImageView lostLife3;
 
     private int gameStatus = 0; // 0 as inGaming and -1 as End
-    private MediaPlayer ring;
+    private MediaPlayer song;
 
 
     private Timer timer = new Timer();
@@ -66,28 +66,20 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        ring = MediaPlayer.create(GameActivity.this, R.raw.music);
-        ring.start();
-        ring.setLooping(true);
-
-        soundPlayer = new SoundPlayer(this);
-
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        screenWidth = displayMetrics.widthPixels;
-        screenHeight = displayMetrics.heightPixels;
-
-        enemyList = new ArrayList<>();
-
+        song = MediaPlayer.create(GameActivity.this, R.raw.music);
+        song.start();
+        song.setLooping(true);
+        
         player = findViewById(R.id.player);
         player.setOnTouchListener(movingEventListener);
 
         initiateGame();
 
-        for (ImageView eachEnemy : enemyList) {
+        for (ImageView eachEnemy : enemyList) { // create balls
             ballSpawnLogic(eachEnemy);
         }
 
-        gameStatus = 0;
+        gameStatus = 0; // 0: gaming 1: end
 
         timer.schedule(new TimerTask() {
             @Override
@@ -100,9 +92,8 @@ public class GameActivity extends AppCompatActivity {
                             gameOver();
                             return;
                         }
-                        timeCount++;
-                        System.out.println(timeCount);
-                        timeChecker();
+                        timer_speed++;
+                        speedTimer();
                         for (ImageView eachEnemy : enemyList) {
                             ballMovingLogic(eachEnemy);
                         }
@@ -116,8 +107,8 @@ public class GameActivity extends AppCompatActivity {
 
         TextView showTime = findViewById(R.id.showTime);
         showTime.setText(chronometer.getText().toString());
-        showTimeText.setX(45f);
-        showTimeText.setY(200f);
+        survivalTime_sec.setX(45f);
+        survivalTime_sec.setY(200f);
         showTime.setX(410f);
         showTime.setY(1000f);
         next.setX(410f);
@@ -126,11 +117,11 @@ public class GameActivity extends AppCompatActivity {
         showTime.setBackgroundColor(Color.parseColor("#FF69B4"));
         showTime.setTextColor(Color.parseColor("#F8F8FF"));
         showTime.setVisibility(View.VISIBLE);
-        showTimeText.setVisibility(View.VISIBLE);
+        survivalTime_sec.setVisibility(View.VISIBLE);
         next.setVisibility(View.VISIBLE);
 
         next.setOnClickListener(unused -> {
-            ring.stop();
+            song.stop();
             finish();
         });
     }
@@ -147,12 +138,20 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void initiateGame() {
+        soundPlayer = new SoundPlayer(this);
+
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        screenWidth = displayMetrics.widthPixels;
+        screenHeight = displayMetrics.heightPixels;
+
+        enemyList = new ArrayList<>();
+
         next = findViewById(R.id.next);
         next.setVisibility(View.INVISIBLE);
         explosion = findViewById(R.id.explosion);
         explosion.setVisibility(View.INVISIBLE);
-        showTimeText = findViewById(R.id.showTimeText);
-        showTimeText.setVisibility(View.INVISIBLE);
+        survivalTime_sec = findViewById(R.id.survivalTime_sec);
+        survivalTime_sec.setVisibility(View.INVISIBLE);
 
         chronometer = findViewById(R.id.chronometer);
         chronometer.setBase(SystemClock.elapsedRealtime());
@@ -185,11 +184,11 @@ public class GameActivity extends AppCompatActivity {
     private boolean collisionCheck(ImageView view, float l, float r, float t, float b) {
         if (r >= player.getLeft() && r <= player.getRight()) {
             if (t < player.getBottom() && b > player.getTop()) {
-                if (ballChecker(view) == 1) {
-                    factor -= 10;
+                if (ballChecker(view) == 1) { // golden ball gets caught by player
+                    factor_speed -= 10;
                     golden_flg = false;
-                } else if (ballChecker(view) == 0) {
-                    lifeChecker();
+                } else if (ballChecker(view) == 0) { // red balls hit player
+                    lifeChanger();
                     if (life <= 0) {
                         gameStatus = -1;
                         soundPlayer.playExplosionSound();
@@ -204,7 +203,7 @@ public class GameActivity extends AppCompatActivity {
         return false;
     }
 
-    private void lifeChecker() {
+    private void lifeChanger() {
         switch (life) {
             case 2:
                 life1.setVisibility(View.INVISIBLE);
@@ -221,25 +220,25 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private boolean wallCheck(ImageView view, float x, float y) {
+    private boolean wallChecker(ImageView view, float x, float y) {
         if (x < - 2 * view.getWidth() || x > screenWidth + view.getWidth()
             || y < - 2 * view.getHeight() || y > screenHeight + view.getHeight()) {
-            if (ballChecker(view) == 1) {
-                golden_flg = false;
+            if (ballChecker(view) == 1) { // golden ball goes beyond any screen edge
+                golden_flg = false; // golden ball would not be created for a while
             }
             return true;
         }
         return false;
     }
 
-    private void timeChecker() {
-        System.out.println(timeCount);
-        if (timeCount % 350 == 0) {
-            factor += 2 ;
+    private void speedTimer() {
+        System.out.println(timer_speed);
+        if (timer_speed % 350 == 0) {
+            factor_speed += 2 ;
         }
         // about 10 sec
-        if (timeCount % 500 == 0 && factor > 20) {
-            golden_flg = true;
+        if (timer_speed % 500 == 0 && factor_speed > 20) {
+            golden_flg = true; // golden ball begins to be created and move
         }
     }
 
@@ -268,13 +267,14 @@ public class GameActivity extends AppCompatActivity {
         float ballTop = view.getY();
         float ballBottom = view.getY() + view.getHeight();
 
+        // before move
         int newY = (int) view.getY();
         int newX = (int) view.getX();
 
 
 
-        if (ballChecker(view) == 0) {
-            float speed = random.nextFloat() * factor;
+        if (ballChecker(view) == 0) { // redball moving logic
+            float speed = random.nextFloat() * factor_speed;
             if (view.getTag().equals("down")) {
                 newY += speed;
             } else if (view.getTag().equals("up")) {
@@ -284,7 +284,7 @@ public class GameActivity extends AppCompatActivity {
             } else if (view.getTag().equals("right")) {
                 newX += speed;
             }
-        } else {
+        } else { // golden moving logic
             int speed = random.nextInt(30);
             if (view.getTag().equals("down")) {
                 newY += speed;
@@ -297,11 +297,11 @@ public class GameActivity extends AppCompatActivity {
             }
         }
 
-        if (collisionCheck(view, ballLeft, ballRight, ballTop, ballBottom)) {
+        if (collisionCheck(view, ballLeft, ballRight, ballTop, ballBottom)) { // player gets hit
             ballSpawnLogic(view);
-        } else if (wallCheck(view, ballLeft, ballTop)) {
+        } else if (wallChecker(view, ballLeft, ballTop)) { // go beyond the screen edges
             ballSpawnLogic(view);
-        } else {
+        } else { // still inside the screen
             view.setY(newY);
             view.setX(newX);
         }
@@ -319,19 +319,19 @@ public class GameActivity extends AppCompatActivity {
             //move vertically
             x = (float) Math.floor(Math.random() * (screenWidth -  image.getWidth()));
             if (startPoint) {
-                y = -100.0f;
+                y = -100.0f; // outside the upper screen edges
                 direction = "down";
             } else {
-                y = screenHeight + 100.0f;
+                y = screenHeight + 100.0f; // outside the lower screen edges
                 direction = "up";
             }
         } else {
             y = (float) Math.floor(Math.random() * (screenHeight -  image.getHeight()));
             if (startPoint) {
-                x = -100.0f;
+                x = -100.0f; // outside the left screen edges
                 direction = "right";
             } else {
-                x = screenWidth + 100.0f;
+                x = screenWidth + 100.0f; // outside the right screen edges
                 direction = "left";
             }
         }
@@ -340,29 +340,29 @@ public class GameActivity extends AppCompatActivity {
         image.setTag(direction);
     }
 
-    private void setBound(View view, int leftBound, int rightBound, int topBound, int bottomBound) {
+    private void boundChecker(View view, int view_left, int view_right, int view_top, int view_bottom) {
         // The player can not pass over the bound of screen
-        if (leftBound < 0) {
-            leftBound = 0;
-            rightBound = leftBound + view.getWidth();
+        if (view_left < 0) { // left edge of view reaches the left edge of screen
+            view_left = 0;
+            view_right = view_left + view.getWidth();
         }
 
-        if (rightBound > screenWidth) {
-            rightBound = screenWidth;
-            leftBound = rightBound - view.getWidth();
+        if (view_right > screenWidth) { // right edge of view reaches the right edge of screen
+            view_right = screenWidth;
+            view_left = view_right - view.getWidth();
         }
 
-        if (topBound < 0) {
-            topBound = 0;
-            bottomBound = topBound + view.getHeight();
+        if (view_top < 0) { // top edge of view reaches the top edge of screen
+            view_top = 0;
+            view_bottom = view_top + view.getHeight();
         }
 
-        if (bottomBound > screenHeight) {
-            bottomBound = screenHeight;
-            topBound = bottomBound - view.getHeight();
+        if (view_bottom > screenHeight) { // bottom edge of view reaches the bottom edge of screen
+            view_bottom = screenHeight;
+            view_top = view_bottom - view.getHeight();
         }
 
-        view.layout(leftBound, topBound, rightBound, bottomBound);
+        view.layout(view_left, view_top, view_right, view_bottom); // set the location of view
     }
 
 
@@ -372,12 +372,12 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         public boolean onTouch(View view, MotionEvent event) {
-            if (gameStatus == -1) {
+            if (gameStatus == -1) { // if game ends, no move is allowed
                 return false;
             }
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    playerX = (int) event.getRawX();
+                    playerX = (int) event.getRawX(); //get the coordinates of finger's touching
                     playerY = (int) event.getRawY();
                     break;
 
@@ -385,12 +385,12 @@ public class GameActivity extends AppCompatActivity {
                     xDelta = (int) event.getRawX() - playerX;
                     yDelta = (int) event.getRawY() - playerY;
 
-                    int leftBound = view.getLeft() + xDelta;
-                    int topBound = view.getTop() + yDelta;
-                    int rightBound = view.getRight() + xDelta;
-                    int bottomBound = view.getBottom() + yDelta;
+                    int view_left = view.getLeft() + xDelta;
+                    int view_top = view.getTop() + yDelta;
+                    int view_right = view.getRight() + xDelta;
+                    int view_bottom = view.getBottom() + yDelta;
 
-                    setBound(view, leftBound, rightBound, topBound, bottomBound);
+                    boundChecker(view, view_left, view_right, view_top, view_bottom);
 
                     playerX = (int) event.getRawX();
                     playerY = (int) event.getRawY();
