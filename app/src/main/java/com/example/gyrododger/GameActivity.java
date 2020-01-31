@@ -57,7 +57,7 @@ public class GameActivity extends AppCompatActivity {
     private Timer timer = new Timer();
     private Handler handler = new Handler();
     private Random random = new Random();
-    private List<ImageView> enemyList;
+    private List<ImageView> ballList;
 
 
 
@@ -75,8 +75,8 @@ public class GameActivity extends AppCompatActivity {
 
         initiateGame();
 
-        for (ImageView eachEnemy : enemyList) { // create balls
-            ballSpawnLogic(eachEnemy);
+        for (ImageView eachBall : ballList) { // create balls
+            ballSpawnLogic(eachBall);
         }
 
         gameStatus = 0; // 0: gaming 1: end
@@ -94,8 +94,8 @@ public class GameActivity extends AppCompatActivity {
                         }
                         timer_speed++;
                         speedTimer();
-                        for (ImageView eachEnemy : enemyList) {
-                            ballMovingLogic(eachEnemy);
+                        for (ImageView eachBall : ballList) {
+                            ballMovingLogic(eachBall);
                         }
                     }
                 });
@@ -144,7 +144,7 @@ public class GameActivity extends AppCompatActivity {
         screenWidth = displayMetrics.widthPixels;
         screenHeight = displayMetrics.heightPixels;
 
-        enemyList = new ArrayList<>();
+        ballList = new ArrayList<>();
 
         next = findViewById(R.id.next);
         next.setVisibility(View.INVISIBLE);
@@ -171,13 +171,13 @@ public class GameActivity extends AppCompatActivity {
         ImageView redBall5 = findViewById(R.id.redBall5);
         ImageView goldenBall = findViewById(R.id.goldenBall);
 
-        enemyList.add(redBall1);
-        enemyList.add(redBall2);
-        enemyList.add(redBall3);
-        enemyList.add(redBall4);
-        enemyList.add(redBall5);
+        ballList.add(redBall1);
+        ballList.add(redBall2);
+        ballList.add(redBall3);
+        ballList.add(redBall4);
+        ballList.add(redBall5);
 
-        enemyList.add(goldenBall);
+        ballList.add(goldenBall);
     }
 
 
@@ -273,7 +273,7 @@ public class GameActivity extends AppCompatActivity {
 
 
 
-        if (ballChecker(view) == 0) { // redball moving logic
+        if (ballChecker(view) == 0) { // red ball moving logic
             float speed = random.nextFloat() * factor_speed;
             if (view.getTag().equals("down")) {
                 newY += speed;
